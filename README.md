@@ -19,7 +19,7 @@ To use this bundle follow these steps...
 1. Add the bundle using composer
     
     "require": {
-        "cubicmushroom/cubicmushroom/symfony-error-redirect": "@dev"
+        "cubicmushroom/symfony-error-redirect": "dev-master"
     }
     
 2. Register the bundle in app/AppKernel.php
