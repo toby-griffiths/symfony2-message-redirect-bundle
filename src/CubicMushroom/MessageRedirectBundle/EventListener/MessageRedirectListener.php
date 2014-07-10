@@ -16,6 +16,12 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
 class MessageRedirectListener
 {
+    /**
+     * App's debug status
+     *
+     * @var bool
+     */
+    protected $debug;
 
     /**
      * @var FlashBagInterface
@@ -59,6 +65,22 @@ class MessageRedirectListener
         $this->flashBag = $flashBag;
 
         return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDebug()
+    {
+        return $this->debug;
+    }
+
+    /**
+     * @param boolean $debug
+     */
+    public function setDebug( $debug )
+    {
+        $this->debug = $debug;
     }
 
 } 
