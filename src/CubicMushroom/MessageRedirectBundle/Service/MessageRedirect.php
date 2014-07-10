@@ -14,6 +14,18 @@ use CubicMushroom\MessageRedirectBundle\Exception\MessageRedirectException;
 class MessageRedirect
 {
     /**
+     * App's debug status
+     *
+     * @var bool
+     */
+    protected $debug;
+
+    /**
+     * @var string
+     */
+    protected $messageRedirectExceptionClass;
+
+    /**
      * Builds the MessageRedirectException
      *
      * @param string      $uri URI to redirect to
@@ -33,10 +45,53 @@ class MessageRedirect
         if ( ! is_null( $previousException )) {
             $code = $previousException->getCode();
         }
-        $e = new MessageRedirectException( $message, $code, $previousException );
+
+        // This line allows the class to be used to be defined in the app config
+        $messageRedirectExceptionClass = $this->getMessageRedirectExceptionClass();
+        $e                             = new $messageRedirectExceptionClass( $message, $code, $previousException );
         $e->setUri( $uri )
           ->setMessageType( $messageType );
 
         return $e;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessageRedirectExceptionClass()
+    {
+        return $this->messageRedirectExceptionClass;
+    }
+
+    /**
+     * @param string $messageRedirectExceptionClass
+     *
+     * @return $this
+     */
+    public function setMessageRedirectExceptionClass( $messageRedirectExceptionClass )
+    {
+        $this->messageRedirectExceptionClass = $messageRedirectExceptionClass;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDebug()
+    {
+        return $this->debug;
+    }
+
+    /**
+     * @param boolean $debug
+     *
+     * @return $this
+     */
+    public function setDebug( $debug )
+    {
+        $this->debug = $debug;
+
+        return $this;
     }
 } 

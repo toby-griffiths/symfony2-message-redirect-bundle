@@ -61,27 +61,27 @@ To use this bundle follow these steps...
 Usage
 -----
 
+### Redirect
+
 To use the redirect functionality, at any time, use the `message_redirect` service to create a MessageRedirectException
 object to then throw.
-    
-1. To redirect the user at any point within the call stack, simply call the `redirect()` method on the 
+
+To redirect the user at any point within the call stack, simply call the `redirect()` method on the 
    `message_redirect` service...
    
         thrown $this->container->get('message_redirect')->createRedirectException(
             $uri,
-            $message,
-            $messageType,
-            $code,
-            $previousException
+            $message,          // optional
+            $messageType,      // optional
+            $previousException // optional
         );
-    
-2. Style your flash messages using the following css rules
-
-        .mr-flash-notice {
-            ...
-        }
-        .mr-flash-notice.error {
-            ...
-        }
         
-   (or use your own styles added, as described above)
+### Using different Exception class to redirect
+    
+To use your own exception class for the redirects, simply set the %message_redirect.exception.message_redirect.class%
+parameter to another exception class that implements the 
+\CubicMushroom\MessageRedirectBundle\Exception\MessageRedirectExceptionInterface interface
+
+To use your own exception on for a single request, you can set the exception class on the service by doing the following...
+
+    $this->container->get('message_redirect')->setMessageRedirectExceptionClass( $class );

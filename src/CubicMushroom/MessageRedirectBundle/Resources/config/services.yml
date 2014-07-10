@@ -1,10 +1,14 @@
 parameters:
     message_redirect.service.class: CubicMushroom\MessageRedirectBundle\Service\MessageRedirect
+    message_redirect.exception.message_redirect.class: CubicMushroom\MessageRedirectBundle\Exception\MessageRedirectException
     message_redirect.event_listener.class: CubicMushroom\MessageRedirectBundle\EventListener\MessageRedirectListener
 
 services:
     message_redirect:
         class: %message_redirect.service.class%
+        calls:
+            - [setMessageRedirectExceptionClass, [%message_redirect.exception.message_redirect.class%]]
+            - [setDebug, [%kernel.debug%]]
 
     kernel.listener.message_redirect:
         class: %message_redirect.event_listener.class%
