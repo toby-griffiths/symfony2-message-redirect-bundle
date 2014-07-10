@@ -8,7 +8,11 @@ Symfony2 bundle that provides service for conveniently redirecting the user from
 displaying a message to the user.
 
 It does this by throwing a MessageRedirectException that is then caught by the MessageRedirectListener which adds the
-message to the session flahsBag, andthen redirects the user to the specified URI. 
+message to the session flahsBag, andthen redirects the user to the specified URI.
+ 
+If a previous exception is passed in to the MessageRedirectException, and the current environment has debugging enabled,
+then the exception will not trigger a redirect, and the exception will be displayed to the user, including the previous 
+exception thrown.
 
 
 Installation
@@ -52,8 +56,15 @@ To use this bundle follow these steps...
    
         {% set flashClasses = 'alert' %}
         {{ include('CubicMushroomMessageRedirectBundle:elements:message.html.twig') }}
+        
+        
+Usage
+-----
+
+To use the redirect functionality, at any time, use the `message_redirect` service to create a MessageRedirectException
+object to then throw.
     
-4. To redirect the user at any point within the call stack, simply call the `redirect()` method on the 
+1. To redirect the user at any point within the call stack, simply call the `redirect()` method on the 
    `message_redirect` service...
    
         thrown $this->container->get('message_redirect')->createRedirectException(
@@ -64,7 +75,7 @@ To use this bundle follow these steps...
             $previousException
         );
     
-5. Style your flash messages using the following css rules
+2. Style your flash messages using the following css rules
 
         .mr-flash-notice {
             ...
