@@ -22,9 +22,9 @@ class MessageRedirect
      * @param \Exception $previousException
      * @param int $code
      *
-     * @throws \CubicMushroom\MessageRedirectBundle\Exception\MessageRedirectException
+     * @return MessageRedirectException
      */
-    public function redirect(
+    public function createRedirectException(
         $uri,
         $message = null,
         $messageType = 'notice',
@@ -35,6 +35,6 @@ class MessageRedirect
         $e->setUri( $uri )
           ->setMessageType( $messageType );
 
-        throw $e;
+        return $e;
     }
 } 

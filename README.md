@@ -56,7 +56,7 @@ To use this bundle follow these steps...
 4. To redirect the user at any point within the call stack, simply call the `redirect()` method on the 
    `message_redirect` service...
    
-        $this->container->get('message_redirect')->redirect(
+        thrown $this->container->get('message_redirect')->createRedirectException(
             $uri,
             $message,
             $messageType,
