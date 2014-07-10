@@ -35,16 +35,24 @@ class MessageRedirectListener
     {
         $exception = $event->getException();
 
-        if ($exception instanceof MessageRedirectException) {
-            $message = $exception->getMessage();
-            if ( ! empty( $message )) {
-                $this->getFlashBag()->add(
-                    'message_redirect.message',
-                    [ 'message' => $message, 'messageType' => $exception->getMessageType() ]
-                );
-            }
-            $event->setResponse( new RedirectResponse( $exception->getUri() ) );
+        // Only process MessageRedirectExceptions
+        if ( ! $exception instanceof MessageRedirectException) {
+            return;
         }
+
+        // If debugging is enabled, and the code is not a 200 then don't intercept the redirect
+        if ($this->isDebug() && 200 !== $exception->getCode()) {
+            return;
+        }
+
+        $message = $exception->getMessage();
+        if ( ! empty( $message )) {
+            $this->getFlashBag()->add(
+                'message_redirect.message',
+                [ 'message' => $message, 'messageType' => $exception->getMessageType() ]
+            );
+        }
+        $event->setResponse( new RedirectResponse( $exception->getUri() ) );
     }
 
     /**
