@@ -1,0 +1,10 @@
+parameters:
+    message_redirect.event_listener.class: CubicMushroom\MessageRedirectBundle\EventListener\MessageRedirectListener
+
+services:
+    kernel.listener.message_redirect:
+        class: %message_redirect.event_listener.class%
+        calls:
+            - [setFlashBag, [@session.flash_bag]]
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
