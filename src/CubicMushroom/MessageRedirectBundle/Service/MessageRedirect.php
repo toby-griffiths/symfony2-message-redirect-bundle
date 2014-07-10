@@ -10,6 +10,8 @@ namespace CubicMushroom\MessageRedirectBundle\Service;
 
 
 use CubicMushroom\MessageRedirectBundle\Exception\MessageRedirectException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 class MessageRedirect
 {
@@ -19,6 +21,11 @@ class MessageRedirect
      * @var bool
      */
     protected $debug;
+
+    /**
+     * @var FlashBagInterface
+     */
+    protected $flashBag;
 
     /**
      * @var string
@@ -56,6 +63,28 @@ class MessageRedirect
     }
 
     /**
+     * Sets a flash message and then creates and returns a ResponseRedirect object
+     *
+     * @param $uri
+     * @param $message
+     * @param $messageType
+     *
+     * @return RedirectResponse
+     */
+    public function createRedirectWithMessage( $uri, $message, $messageType )
+    {
+        if ( ! empty( $message )) {
+            $this->getFlashBag()->add(
+                'message_redirect.message',
+                [ 'message' => $message, 'messageType' => $messageType ]
+            );
+        }
+
+        return new RedirectResponse( $uri );
+    }
+
+
+    /**
      * @return string
      */
     public function getMessageRedirectExceptionClass()
@@ -91,6 +120,26 @@ class MessageRedirect
     public function setDebug( $debug )
     {
         $this->debug = $debug;
+
+        return $this;
+    }
+
+    /**
+     * @return FlashBagInterface
+     */
+    public function getFlashBag()
+    {
+        return $this->flashBag;
+    }
+
+    /**
+     * @param FlashBagInterface $flashBag
+     *
+     * @return $this
+     */
+    public function setFlashBag( FlashBagInterface $flashBag )
+    {
+        $this->flashBag = $flashBag;
 
         return $this;
     }

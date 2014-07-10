@@ -10,8 +10,7 @@ namespace CubicMushroom\MessageRedirectBundle\EventListener;
 
 
 use CubicMushroom\MessageRedirectBundle\Exception\MessageRedirectExceptionInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use CubicMushroom\MessageRedirectBundle\Service\MessageRedirect;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
 class MessageRedirectListener
@@ -24,9 +23,9 @@ class MessageRedirectListener
     protected $debug;
 
     /**
-     * @var FlashBagInterface
+     * @var MessageRedirect
      */
-    protected $flashBag;
+    protected $messageRedirectService;
 
     /**
      * @param GetResponseForExceptionEvent $event
@@ -47,34 +46,13 @@ class MessageRedirectListener
             return;
         }
 
+        $uri = $exception->getUri();
         $message = $exception->getMessage();
-        if ( ! empty( $message )) {
-            $this->getFlashBag()->add(
-                'message_redirect.message',
-                [ 'message' => $message, 'messageType' => $exception->getMessageType() ]
-            );
-        }
-        $event->setResponse( new RedirectResponse( $exception->getUri() ) );
-    }
+        $messageType = $exception->getMessageType();
 
-    /**
-     * @return FlashBagInterface
-     */
-    public function getFlashBag()
-    {
-        return $this->flashBag;
-    }
+        $redirect = $this->getMessageRedirectService()->createRedirectWithMessage( $uri, $message, $messageType );
 
-    /**
-     * @param FlashBagInterface $flashBag
-     *
-     * @return $this
-     */
-    public function setFlashBag( FlashBagInterface $flashBag )
-    {
-        $this->flashBag = $flashBag;
-
-        return $this;
+        $event->setResponse( $redirect );
     }
 
     /**
@@ -87,10 +65,32 @@ class MessageRedirectListener
 
     /**
      * @param boolean $debug
+     *
+     * @return $this
      */
     public function setDebug( $debug )
     {
         $this->debug = $debug;
+
+        return $this;
+    }
+
+    /**
+     * @return MessageRedirect
+     */
+    public function getMessageRedirectService()
+    {
+        return $this->messageRedirectService;
+    }
+
+    /**
+     * @param MessageRedirect $messageRedirectService
+     */
+    public function setMessageRedirectService( $messageRedirectService )
+    {
+        $this->messageRedirectService = $messageRedirectService;
+
+        return $this;
     }
 
 } 
