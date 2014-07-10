@@ -48,6 +48,11 @@ To use this bundle follow these steps...
     
         {{ include('CubicMushroomMessageRedirectBundle:elements:message.html.twig') }}
     
+   To add your own classes to the flash messages, define the flashClasses twig variable before calling the inlude
+   
+        {% set flashClasses = 'alert' %}
+        {{ include('CubicMushroomMessageRedirectBundle:elements:message.html.twig') }}
+    
 4. To redirect the user at any point within the call stack, simply call the `redirect()` method on the 
    `message_redirect` service...
    
@@ -58,3 +63,14 @@ To use this bundle follow these steps...
             $code,
             $previousException
         );
+    
+5. Style your flash messages using the following css rules
+
+        .mr-flash-notice {
+            ...
+        }
+        .mr-flash-notice.error {
+            ...
+        }
+        
+   (or use your own styles added, as described above)
