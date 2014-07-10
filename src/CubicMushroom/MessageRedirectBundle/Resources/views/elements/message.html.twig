@@ -1,0 +1,5 @@
+{% for flashMessage in app.session.flashbag.get('message_redirect.message') %}
+    <div class="mr-flash-notice flashMessage.messageType">
+        {{ flashMessage.message }}
+    </div>
+{% endfor %}
