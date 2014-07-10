@@ -16,20 +16,20 @@ class MessageRedirect
     /**
      * Builds the MessageRedirectException
      *
-     * @param string      $uri URI to redirect to
+     * @param string $uri URI to redirect to
      * @param string|null $message
-     * @param string      $messageType
-     * @param int         $code
-     * @param \Exception  $previousException
+     * @param string $messageType
+     * @param \Exception $previousException
+     * @param int $code
      *
-     * @throws MessageRedirectException
+     * @throws \CubicMushroom\MessageRedirectBundle\Exception\MessageRedirectException
      */
     public function redirect(
         $uri,
         $message = null,
         $messageType = 'notice',
-        $code = 0,
-        \Exception $previousException = null
+        \Exception $previousException = null,
+        $code = 0
     ) {
         $e = new MessageRedirectException( $message, $code, $previousException );
         $e->setUri( $uri )
