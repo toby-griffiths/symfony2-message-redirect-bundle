@@ -9,7 +9,7 @@
 namespace CubicMushroom\MessageRedirectBundle\EventListener;
 
 
-use CubicMushroom\MessageRedirectBundle\Exception\MessageRedirectException;
+use CubicMushroom\MessageRedirectBundle\Exception\MessageRedirectExceptionInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
@@ -36,9 +36,11 @@ class MessageRedirectListener
         $exception = $event->getException();
 
         // Only process MessageRedirectExceptions
-        if ( ! $exception instanceof MessageRedirectException) {
+        if ( ! $exception instanceof MessageRedirectExceptionInterface) {
             return;
         }
+
+        /** @var \Exception|MessageRedirectExceptionInterface $exception */
 
         // If debugging is enabled, and the code is not a 200 then don't intercept the redirect
         if ($this->isDebug() && 200 !== $exception->getCode()) {

@@ -17,7 +17,7 @@ namespace CubicMushroom\MessageRedirectBundle\Exception;
  * stack, as the exception will bubble up the stack and then get handled by the Kernel's Exception handler, which in
  * turn triggers the KernelEvents::EXCEPTION event, that this bundle's MessageRedirectListener handles
  */
-class MessageRedirectException extends Exception
+class MessageRedirectException extends Exception implements MessageRedirectExceptionInterface
 {
     /**
      * @var string
