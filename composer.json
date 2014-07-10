@@ -1,7 +1,7 @@
 {
     "name": "cubicmushroom/symfony-error-redirect",
     "description": "Symfony bundle to provide simple redirect with flash messages",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "license": "MIT",
     "authors": [
         {
