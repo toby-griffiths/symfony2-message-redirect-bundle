@@ -18,23 +18,43 @@ To use this bundle follow these steps...
 
 1. Add the bundle using composer
     
-    "require": {
-        "cubicmushroom/symfony-error-redirect": "dev-master"
-    }
+        "require": {
+            "cubicmushroom/symfony-error-redirect": "dev-master"
+        }
     
 2. Register the bundle in app/AppKernel.php
+
+        class AppKernel extends Kernel
+        {
+            // ...
+    
+            public function registerBundles()
+            {
+                $bundles = array(
+                    // ...
+                    new CubicMushroom\MessageRedirectBundle\CubicMushroomMessageRedirectBundle(),
+                );
+                
+                // ...
+        
+                return $bundles;
+            }
+            
+            // ...
+        }
+
 3. Add the message template to your view template (probably best at the base template level to avoid having ot remember
    to each view
     
-    {{ include('CubicMushroomMessageRedirectBundle:elements:message.html.twig') }}
+        {{ include('CubicMushroomMessageRedirectBundle:elements:message.html.twig') }}
     
 4. To redirect the user at any point within the call stack, simply call the `redirect()` method on the 
    `message_redirect` service...
    
-    $this->container->get('message_redirect')->redirect(
-        $uri,
-        $message,
-        $messageType,
-        $code,
-        $previousException
-    );
+        $this->container->get('message_redirect')->redirect(
+            $uri,
+            $message,
+            $messageType,
+            $code,
+            $previousException
+        );
