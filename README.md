@@ -1,4 +1,11 @@
-symfony2-message-redirect-bundle
-================================
+Message Redirect Bundle
+=======================
 
-Provides an easy way to redirect the current request to a given URL, and include a message in the flashBag
+Introduction
+------------
+
+Symfony2 bundle that provides convenience MessageRedirectException, as well as a Kernel exception event listener that 
+catches any MessageRedirectException thrown.
+
+If a MessageRedirectException is thrown then any message provided is added to the session's flashbag, and then the user 
+id redirected to the URI set in the MessageRedirectException.
