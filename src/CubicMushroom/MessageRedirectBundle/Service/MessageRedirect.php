@@ -16,11 +16,10 @@ class MessageRedirect
     /**
      * Builds the MessageRedirectException
      *
-     * @param string $uri URI to redirect to
+     * @param string      $uri URI to redirect to
      * @param string|null $message
-     * @param string $messageType
-     * @param \Exception $previousException
-     * @param int $code
+     * @param string      $messageType
+     * @param \Exception  $previousException
      *
      * @return MessageRedirectException
      */
@@ -28,9 +27,12 @@ class MessageRedirect
         $uri,
         $message = null,
         $messageType = 'notice',
-        \Exception $previousException = null,
-        $code = 0
+        \Exception $previousException = null
     ) {
+        $code = 200;
+        if ( ! is_null( $previousException )) {
+            $code = $previousException->getCode();
+        }
         $e = new MessageRedirectException( $message, $code, $previousException );
         $e->setUri( $uri )
           ->setMessageType( $messageType );
