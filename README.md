@@ -63,16 +63,20 @@ Usage
 
 ### Redirect
 
-To use the redirect functionality, at any time, use the `message_redirect` service to create a MessageRedirectException
-object to then throw.
+There are 1 ways to rediect...
 
-To redirect the user at any point within the call stack, simply call the `redirect()` method on the 
-   `message_redirect` service...
-   
+1. Use the service's createRedirectWithMessage() method and returning this from your controller.
+
+        // If within object with a Container object
+        return $this->container->get('message_redirect')->createRedirectWithMessage( $uri, $message, $messageClass );
+        
+2. Create and throw a RedirectMessageException
+
+        // If within object with a Container object
         thrown $this->container->get('message_redirect')->createRedirectException(
             $uri,
             $message,          // optional
-            $messageType,      // optional
+            messageType,       // optional
             $previousException // optional
         );
         
@@ -85,3 +89,4 @@ parameter to another exception class that implements the
 To use your own exception on for a single request, you can set the exception class on the service by doing the following...
 
     $this->container->get('message_redirect')->setMessageRedirectExceptionClass( $class );
+    // Then call createRedirectWithMessage() to create the exception to throw
