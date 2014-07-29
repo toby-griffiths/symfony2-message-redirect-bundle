@@ -1,6 +1,6 @@
 {% for flashMessage in app.session.flashbag.get('message_redirect.message') %}
     <div class="mr-flash-notice {{ flashClasses|default('') }}
     {{ flashClassesMap[flashMessage.messageType]|default(flashMessage.messageType) }}">
-        {{ flashMessage.message }}
+        {% block mr_message %}{{ flashMessage.message }}{% endblock mr_message %}
     </div>
 {% endfor %}
