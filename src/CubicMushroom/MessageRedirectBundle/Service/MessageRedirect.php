@@ -71,8 +71,12 @@ class MessageRedirect
      *
      * @return RedirectResponse
      */
-    public function createRedirectWithMessage( $uri, $message, $messageClass = 'notice' )
+    public function createRedirectWithMessage( $uri, $message, $messageClass = null )
     {
+        if (is_null( $messageClass )) {
+            $messageClass = 'notice';
+        }
+
         if ( ! empty( $message )) {
             $this->getFlashBag()->add(
                 'message_redirect.message',
